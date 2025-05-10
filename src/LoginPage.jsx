@@ -1,28 +1,28 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
-import './LoginPage.css';
+import "./LoginPage.css";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = React.useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const [signupData, setSignupData] = React.useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -30,39 +30,62 @@ const LoginPage = () => {
     const { name, value } = e.target;
     setSignupData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    const { name, email, password, confirmPassword } = signupData;
+
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+    if (!name || !email || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    if (!strongPasswordRegex.test(password)) {
+      alert(
+        "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+      );
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
     try {
-      await axios.post('http://localhost:8080/api/auth/register', signupData);
-      alert('User registered!');
+      await axios.post("http://localhost:8080/api/auth/register", signupData);
+      alert("User registered!");
     } catch (error) {
-      console.error('Error registering user:', error);
-      alert('Registration failed.');
+      console.error("Error registering user:", error);
+      alert("Registration failed.");
     }
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', {
-        email: loginData.email,
-        password: loginData.password
-      });
-      // alert(response.data.message);
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/login",
+        {
+          email: loginData.email,
+          password: loginData.password,
+        }
+      );
       console.log("Logged-in user:", response.data.user);
-
-      // ✅ Redirect to home
-      navigate('/home');
+      navigate("/home");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         alert(error.response.data.message);
       } else {
-        alert('Something went wrong. Please try again.');
-        console.error('Error logging in:', error);
+        alert("Something went wrong. Please try again.");
+        console.error("Error logging in:", error);
       }
     }
   };
