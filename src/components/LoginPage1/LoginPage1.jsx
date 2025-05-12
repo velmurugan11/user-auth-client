@@ -63,7 +63,7 @@ const LoginPage1 = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/auth/register", signupData);
+      await axios.post("http://localhost:8081/api/auth/register", signupData);
       alert("User registered!");
     } catch (error) {
       console.error("Error registering user:", error);
@@ -75,8 +75,12 @@ const LoginPage1 = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
+<<<<<<< HEAD:src/components/LoginPage1/LoginPage1.jsx
         "http://localhost:8080/api/auth/login",
         
+=======
+        "http://localhost:8081/api/auth/login",
+>>>>>>> f05e4a4a06b9a05ca24d19238fef4baec71d1d27:src/LoginPage1.jsx
         {
           email: loginData.email,
           password: loginData.password,
@@ -106,6 +110,7 @@ const LoginPage1 = () => {
               const decoded = jwtDecode(token);
               console.log(decoded);
 
+<<<<<<< HEAD:src/components/LoginPage1/LoginPage1.jsx
               // const response = await axios.post(
               //   "http://localhost:8080/api/auth/google",
               //   {
@@ -121,6 +126,20 @@ const LoginPage1 = () => {
             }
           }}
           onError={() => {
+=======
+        // const response = await axios.post("http://localhost:8080/api/auth/google", {
+            // token: token,
+        // });
+
+        // console.log("Server response:", response.data);
+        navigate("/home");
+        } catch (err) {
+        console.error("Google login error:", err);
+        alert("Google login failed");
+        }
+        }}
+        onError={() => {
+>>>>>>> f05e4a4a06b9a05ca24d19238fef4baec71d1d27:src/LoginPage1.jsx
             console.log("Google login failed");
             alert("Google login failed");
           }}
@@ -141,9 +160,13 @@ const LoginPage1 = () => {
           name="password"
           placeholder="Password"
           value={loginData.password}
+<<<<<<< HEAD:src/components/LoginPage1/LoginPage1.jsx
           onChange={handleLoginChange}
         />
 
+=======
+          onChange={handleLoginChange}/>        
+>>>>>>> f05e4a4a06b9a05ca24d19238fef4baec71d1d27:src/LoginPage1.jsx
         <button type="submit">LOG IN</button>
       </form>
 
