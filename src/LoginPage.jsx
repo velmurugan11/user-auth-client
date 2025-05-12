@@ -60,7 +60,7 @@ const LoginPage = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/auth/register", signupData);
+      await axios.post("http://localhost:8081/api/auth/register", signupData);
       alert("User registered!");
     } catch (error) {
       console.error("Error registering user:", error);
@@ -72,7 +72,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        "http://localhost:8081/api/auth/login",
         {
           email: loginData.email,
           password: loginData.password,
@@ -111,7 +111,7 @@ const LoginPage = () => {
           value={loginData.password}
           onChange={handleLoginChange}
         />
-        <button type="submit">LOG IN</button>
+        <button type="submit">LOG IN</button> 
       </form>
 
       {/* Signup Form */}

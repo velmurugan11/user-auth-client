@@ -63,7 +63,7 @@ const LoginPage = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/auth/register", signupData);
+      await axios.post("http://localhost:8081/api/auth/register", signupData);
       alert("User registered!");
     } catch (error) {
       console.error("Error registering user:", error);
@@ -75,7 +75,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        "http://localhost:8081/api/auth/login",
         {
           email: loginData.email,
           password: loginData.password,
@@ -106,11 +106,11 @@ const LoginPage = () => {
         const decoded = jwtDecode(token);
         console.log(decoded);
 
-        const response = await axios.post("http://localhost:8080/api/auth/google", {
-            token: token,
-        });
+        // const response = await axios.post("http://localhost:8080/api/auth/google", {
+            // token: token,
+        // });
 
-        console.log("Server response:", response.data);
+        // console.log("Server response:", response.data);
         navigate("/home");
         } catch (err) {
         console.error("Google login error:", err);
@@ -138,11 +138,7 @@ const LoginPage = () => {
           name="password"
           placeholder="Password"
           value={loginData.password}
-          onChange={handleLoginChange}
-        />
-
-        
-        
+          onChange={handleLoginChange}/>        
         <button type="submit">LOG IN</button>
       </form>
 
