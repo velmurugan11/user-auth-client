@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import {GoogleLogin} from '@react-oauth/google';
+import { GoogleLogin } from "@react-oauth/google";
 import React from "react";
 import axios from "axios";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 import "./LoginPage.css";
 
-const LoginPage = () => {
+const LoginPage1 = () => {
   const [loginData, setLoginData] = React.useState({
     email: "",
     password: "",
@@ -76,13 +76,14 @@ const LoginPage = () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/auth/login",
+        
         {
           email: loginData.email,
           password: loginData.password,
         }
       );
       console.log("Logged-in user:", response.data.user);
-      navigate("/home");
+      navigate("/otp");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         alert(error.response.data.message);
@@ -97,30 +98,32 @@ const LoginPage = () => {
     <div className="container">
       {/* Login Form */}
       <form onSubmit={handleLogin} style={{ float: "left", width: "50%" }}>
-
         <h1 style={{ marginLeft: "160px", marginTop: "20px" }}>Log in</h1>
         <GoogleLogin
-        onSuccess={async (credentialResponse) => {
-        try {
-        const token = credentialResponse.credential;
-        const decoded = jwtDecode(token);
-        console.log(decoded);
+          onSuccess={async (credentialResponse) => {
+            try {
+              const token = credentialResponse.credential;
+              const decoded = jwtDecode(token);
+              console.log(decoded);
 
-        const response = await axios.post("http://localhost:8080/api/auth/google", {
-            token: token,
-        });
+              // const response = await axios.post(
+              //   "http://localhost:8080/api/auth/google",
+              //   {
+              //     token: token,
+              //   }
+              // );
 
-        console.log("Server response:", response.data);
-        navigate("/home");
-        } catch (err) {
-        console.error("Google login error:", err);
-        alert("Google login failed");
-        }
-        }}
-        onError={() => {
+              // console.log("Server response:", response.data);
+              navigate("/home");
+            } catch (err) {
+              console.error("Google login error:", err);
+              alert("Google login failed");
+            }
+          }}
+          onError={() => {
             console.log("Google login failed");
             alert("Google login failed");
-        }}
+          }}
         />
         <h2>OR</h2>
         <input
@@ -141,8 +144,6 @@ const LoginPage = () => {
           onChange={handleLoginChange}
         />
 
-        
-        
         <button type="submit">LOG IN</button>
       </form>
 
@@ -187,4 +188,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginPage1;
